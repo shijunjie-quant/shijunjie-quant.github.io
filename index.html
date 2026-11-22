@@ -169,7 +169,7 @@
   }
 
   .hero {
-    padding: clamp(56px, 9vw, 92px) 0 clamp(36px, 5vw, 56px);
+    padding: clamp(44px, 6.5vw, 68px) 0 clamp(20px, 2.6vw, 28px);
   }
 
   h1 {
@@ -191,18 +191,18 @@
 
   .section {
     display: grid;
-    grid-template-columns: 140px minmax(0, 1fr);
-    gap: 20px 48px;
+    grid-template-columns: 170px minmax(0, 1fr);
+    gap: 24px 60px;
     padding: 36px 0;
     border-top: 1px solid var(--border);
   }
 
   .section h2 {
     margin: 4px 0 0;
-    font-size: 0.8rem;
+    font-size: 0.92rem;
     line-height: 1.6;
     font-weight: 700;
-    letter-spacing: 0.14em;
+    letter-spacing: 0.12em;
     text-transform: uppercase;
     color: var(--accent);
   }
@@ -212,19 +212,23 @@
   }
 
   .about {
-    max-width: 60ch;
+    max-width: 62ch;
     margin: 0;
-    font-size: clamp(1rem, 2.1vw, 1.08rem);
+    font-size: clamp(1.08rem, 2.3vw, 1.18rem);
     line-height: 1.85;
+  }
+
+  .about-line {
+    display: block;
   }
 
   .projects {
     display: grid;
-    gap: 14px;
+    gap: 16px;
   }
 
   .project {
-    padding: 22px 24px;
+    padding: 28px 32px;
     border: 1px solid var(--border);
     border-radius: var(--radius);
     background: var(--surface);
@@ -239,34 +243,34 @@
 
   .project h3 {
     margin: 0 0 10px;
-    font-size: 1.12rem;
+    font-size: 1.2rem;
     line-height: 1.5;
     font-weight: 700;
     letter-spacing: 0.01em;
   }
 
   .project-summary {
-    max-width: 60ch;
-    margin: 0 0 16px;
+    max-width: 62ch;
+    margin: 0 0 18px;
     color: var(--muted);
-    font-size: 0.98rem;
-    line-height: 1.75;
+    font-size: 1.04rem;
+    line-height: 1.78;
   }
 
   .project-points {
     display: grid;
-    gap: 8px;
+    gap: 10px;
     max-width: 62ch;
-    margin: 0 0 18px;
+    margin: 0 0 20px;
     padding: 0;
     list-style: none;
   }
 
   .project-points li {
     position: relative;
-    padding-left: 18px;
-    font-size: 0.95rem;
-    line-height: 1.72;
+    padding-left: 20px;
+    font-size: 1rem;
+    line-height: 1.75;
   }
 
   .project-points li::before {
@@ -287,7 +291,7 @@
     gap: 6px;
     border-bottom: 1px solid transparent;
     color: var(--accent);
-    font-size: 0.92rem;
+    font-size: 0.98rem;
     font-weight: 600;
     line-height: 1.6;
     text-decoration: none;
@@ -326,7 +330,8 @@
 
   @media (max-width: 680px) {
     .hero {
-      padding-top: 48px;
+      padding-top: 40px;
+      padding-bottom: 20px;
     }
 
     h1 {
@@ -335,8 +340,8 @@
 
     .section {
       grid-template-columns: 1fr;
-      gap: 8px;
-      padding: 28px 0;
+      gap: 10px;
+      padding: 30px 0;
     }
 
     .section h2 {
@@ -344,7 +349,7 @@
     }
 
     .project {
-      padding: 20px;
+      padding: 24px;
     }
   }
 
@@ -390,12 +395,29 @@
   <section class="section" aria-labelledby="about-title">
     <h2 id="about-title" data-zh="关于我" data-en="About">关于我</h2>
     <div class="section-body">
-      <p class="about" data-zh="九年 A 股个人投资者；2026 年起以多智能体工作流自研量化系统：分层数据湖与分钟级回测引擎（l2-engine，策略层为演示版）、AI 协作护栏层（l2-guardrails）" data-en="Nine years as an individual A-share investor; since 2026, building quant systems with multi-agent workflows: a layered data lake and a minute-level backtesting engine (l2-engine; strategy layer is a demo), and an AI collaboration guardrails layer (l2-guardrails).">九年 A 股个人投资者；2026 年起以多智能体工作流自研量化系统：分层数据湖与分钟级回测引擎（l2-engine，策略层为演示版）、AI 协作护栏层（l2-guardrails）</p>
+      <p class="about">
+        <span class="about-line" data-zh="九年 A 股个人投资者；" data-en="Nine years as an individual A-share investor;">九年 A 股个人投资者；</span>
+        <span class="about-line" data-zh="2026 年起以多智能体工作流自研量化系统：" data-en="since 2026, building quant systems with multi-agent workflows:">2026 年起以多智能体工作流自研量化系统：</span>
+        <span class="about-line" data-zh="分层数据湖与分钟级回测引擎（l2-engine，策略层为演示版）、" data-en="a layered data lake and a minute-level backtesting engine (l2-engine; strategy layer is a demo),">分层数据湖与分钟级回测引擎（l2-engine，策略层为演示版）、</span>
+        <span class="about-line" data-zh="AI 协作护栏层（l2-guardrails）" data-en="and an AI collaboration guardrails layer (l2-guardrails).">AI 协作护栏层（l2-guardrails）</span>
+      </p>
     </div>
   </section>
   <section class="section" aria-labelledby="projects-title">
     <h2 id="projects-title" data-zh="项目" data-en="Projects">项目</h2>
     <div class="section-body projects">
+      <article class="project">
+        <h3>l2-guardrails</h3>
+        <p class="project-summary" data-zh="L2 Engine 的 MCP 护栏层——把数据湖体检、宇宙查询、回测验证、沙箱写跑封装成七个带权限分级的工具，供 AI Agent 调用。" data-en="The MCP guardrails layer of L2 Engine — wraps data lake health checks, universe queries, backtest validation and sandboxed write-and-run into seven tools with permission levels, for AI agents to call.">L2 Engine 的 MCP 护栏层——把数据湖体检、宇宙查询、回测验证、沙箱写跑封装成七个带权限分级的工具，供 AI Agent 调用。</p>
+        <ul class="project-points" role="list">
+          <li data-zh="七工具四级权限：工具面只暴露 L0（读）与 L1（沙箱写跑），L2/L3 由人发车与终审" data-en="Seven tools, four permission levels: the tool surface exposes only L0 (read) and L1 (sandbox write-and-run); L2/L3 require a human to launch and give final approval">七工具四级权限：工具面只暴露 L0（读）与 L1（沙箱写跑），L2/L3 由人发车与终审</li>
+          <li data-zh="安全模型四原则：fail-closed（报错绝不静默成功）/ 双路径锁（resolve 解析后比对 parents 链，防前缀目录越界）/ 重活子进程化（不 import 引擎，互不连坐）/ 工具描述即契约" data-en="Four security-model principles: fail-closed (an error is never silently treated as success) / dual-path lock (after resolve, compare the parents chain to prevent prefix-directory escapes) / heavy work in subprocesses (no engine import, so failures do not cascade) / tool descriptions are the contract">安全模型四原则：fail-closed（报错绝不静默成功）/ 双路径锁（resolve 解析后比对 parents 链，防前缀目录越界）/ 重活子进程化（不 import 引擎，互不连坐）/ 工具描述即契约</li>
+          <li data-zh="沙箱三工具（write_file / run_full_backtest / read_log）：AI 生成的代码有受控写入口与 Docker 隔离执行环境，宿主主代码区对 AI 永远只读" data-en="Three sandbox tools (write_file / run_full_backtest / read_log): AI-generated code gets a controlled write entry and a Docker-isolated execution environment; the host's main code area is always read-only to AI">沙箱三工具（write_file / run_full_backtest / read_log）：AI 生成的代码有受控写入口与 Docker 隔离执行环境，宿主主代码区对 AI 永远只读</li>
+          <li data-zh="事故博物馆：v1 到 v3.4 的真实事故与修复记录" data-en="Incident museum: real incidents and fixes from v1 to v3.4">事故博物馆：v1 到 v3.4 的真实事故与修复记录</li>
+          <li data-zh="v3.4 修复前缀目录越界漏洞：startswith 匹配改为 parents 链比对" data-en="v3.4 fixes the prefix-directory escape vulnerability: startswith matching replaced with parents-chain comparison">v3.4 修复前缀目录越界漏洞：startswith 匹配改为 parents 链比对</li>
+        </ul>
+        <a href="https://github.com/shijunjie-quant/l2-guardrails" target="_blank" rel="noopener noreferrer"><span data-zh="查看仓库" data-en="View repository">查看仓库</span><span class="arrow" aria-hidden="true">↗</span></a>
+      </article>
       <article class="project">
         <h3>L2 Engine</h3>
         <p class="project-summary" data-zh="一个人的 A 股量化研究基础设施：分层数据湖、分钟级全市场回测引擎、GA 参数寻优，以及一个用于演示接线的双均线示例策略。" data-en="One person's A-share quantitative research infrastructure: a layered data lake, a minute-level full-market backtesting engine, GA parameter optimization, and a dual moving average example strategy used to demonstrate the wiring.">一个人的 A 股量化研究基础设施：分层数据湖、分钟级全市场回测引擎、GA 参数寻优，以及一个用于演示接线的双均线示例策略。</p>
@@ -408,18 +430,6 @@
           <li data-zh="诚实口径：约 2 个月有效开发量，演进途中两次彻底重写；仓库只含研究框架与演示策略" data-en="Honest framing: about 2 months of effective development with two complete rewrites along the way; the repository contains only the research framework and demo strategy">诚实口径：约 2 个月有效开发量，演进途中两次彻底重写；仓库只含研究框架与演示策略</li>
         </ul>
         <a href="https://github.com/shijunjie-quant/l2-engine" target="_blank" rel="noopener noreferrer"><span data-zh="查看仓库" data-en="View repository">查看仓库</span><span class="arrow" aria-hidden="true">↗</span></a>
-      </article>
-      <article class="project">
-        <h3>l2-guardrails</h3>
-        <p class="project-summary" data-zh="L2 Engine 的 MCP 护栏层——把数据湖体检、宇宙查询、回测验证、沙箱写跑封装成七个带权限分级的工具，供 AI Agent 调用。" data-en="The MCP guardrails layer of L2 Engine — wraps data lake health checks, universe queries, backtest validation and sandboxed write-and-run into seven tools with permission levels, for AI agents to call.">L2 Engine 的 MCP 护栏层——把数据湖体检、宇宙查询、回测验证、沙箱写跑封装成七个带权限分级的工具，供 AI Agent 调用。</p>
-        <ul class="project-points" role="list">
-          <li data-zh="七工具四级权限：工具面只暴露 L0（读）与 L1（沙箱写跑），L2/L3 由人发车与终审" data-en="Seven tools, four permission levels: the tool surface exposes only L0 (read) and L1 (sandbox write-and-run); L2/L3 require a human to launch and give final approval">七工具四级权限：工具面只暴露 L0（读）与 L1（沙箱写跑），L2/L3 由人发车与终审</li>
-          <li data-zh="安全模型四原则：fail-closed（报错绝不静默成功）/ 双路径锁（resolve 解析后比对 parents 链，防前缀目录越界）/ 重活子进程化（不 import 引擎，互不连坐）/ 工具描述即契约" data-en="Four security-model principles: fail-closed (an error is never silently treated as success) / dual-path lock (after resolve, compare the parents chain to prevent prefix-directory escapes) / heavy work in subprocesses (no engine import, so failures do not cascade) / tool descriptions are the contract">安全模型四原则：fail-closed（报错绝不静默成功）/ 双路径锁（resolve 解析后比对 parents 链，防前缀目录越界）/ 重活子进程化（不 import 引擎，互不连坐）/ 工具描述即契约</li>
-          <li data-zh="沙箱三工具（write_file / run_full_backtest / read_log）：AI 生成的代码有受控写入口与 Docker 隔离执行环境，宿主主代码区对 AI 永远只读" data-en="Three sandbox tools (write_file / run_full_backtest / read_log): AI-generated code gets a controlled write entry and a Docker-isolated execution environment; the host's main code area is always read-only to AI">沙箱三工具（write_file / run_full_backtest / read_log）：AI 生成的代码有受控写入口与 Docker 隔离执行环境，宿主主代码区对 AI 永远只读</li>
-          <li data-zh="事故博物馆：v1 到 v3.4 的真实事故与修复记录" data-en="Incident museum: real incidents and fixes from v1 to v3.4">事故博物馆：v1 到 v3.4 的真实事故与修复记录</li>
-          <li data-zh="v3.4 修复前缀目录越界漏洞：startswith 匹配改为 parents 链比对" data-en="v3.4 fixes the prefix-directory escape vulnerability: startswith matching replaced with parents-chain comparison">v3.4 修复前缀目录越界漏洞：startswith 匹配改为 parents 链比对</li>
-        </ul>
-        <a href="https://github.com/shijunjie-quant/l2-guardrails" target="_blank" rel="noopener noreferrer"><span data-zh="查看仓库" data-en="View repository">查看仓库</span><span class="arrow" aria-hidden="true">↗</span></a>
       </article>
     </div>
   </section>
