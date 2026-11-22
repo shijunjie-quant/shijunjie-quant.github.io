@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<meta name="theme-color" content="#f6f6f3" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0d0f12" media="(prefers-color-scheme: dark)">
+<title>史俊杰 — 用 AI Agent 工作流构建量化系统</title>
+<meta name="description" content="史俊杰的个人主页：用 AI Agent 工作流构建量化系统。">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='16' fill='%230b6b53'/%3E%3Crect x='18' y='18' width='28' height='28' rx='8' fill='none' stroke='%23ffffff' stroke-width='4'/%3E%3C/svg%3E">
+<style>
+  :root {
+    color-scheme: light;
+    --bg: #f6f6f3;
+    --surface: #ffffff;
+    --text: #16181b;
+    --muted: #5b6067;
+    --border: #e3e3de;
+    --accent: #0b6b53;
+    --accent-soft: rgba(11, 107, 83, 0.10);
+    --glow: rgba(11, 107, 83, 0.06);
+    --shadow: 0 1px 2px rgba(0, 0, 0, 0.04), 0 10px 30px rgba(0, 0, 0, 0.05);
+    --shadow-hover: 0 2px 4px rgba(0, 0, 0, 0.05), 0 16px 40px rgba(0, 0, 0, 0.08);
+    --radius: 16px;
+    --wrap: 920px;
+    --font: system-ui, -apple-system, "Segoe UI", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Noto Sans SC", sans-serif;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root {
+      color-scheme: dark;
+      --bg: #0d0f12;
+      --surface: #15181c;
+      --text: #e8eaec;
+      --muted: #a0a6ad;
+      --border: #252a30;
+      --accent: #74c4a9;
+      --accent-soft: rgba(116, 196, 169, 0.14);
+      --glow: rgba(116, 196, 169, 0.07);
+      --shadow: 0 1px 2px rgba(0, 0, 0, 0.4), 0 10px 30px rgba(0, 0, 0, 0.3);
+      --shadow-hover: 0 2px 4px rgba(0, 0, 0, 0.5), 0 18px 44px rgba(0, 0, 0, 0.4);
+    }
+  }
+
+  *,
+  *::before,
+  *::after {
+    box-sizing: border-box;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    margin: 0;
+    min-height: 100vh;
+    font-family: var(--font);
+    font-size: 16px;
+    line-height: 1.7;
+    color: var(--text);
+    background:
+      radial-gradient(1100px 520px at 78% -160px, var(--glow), transparent 65%),
+      var(--bg);
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  ::selection {
+    background: var(--accent-soft);
+    color: var(--text);
+  }
+
+  a {
+    color: var(--accent);
+  }
+
+  .wrap {
+    width: 100%;
+    max-width: var(--wrap);
+    margin: 0 auto;
+    padding-left: clamp(20px, 5vw, 32px);
+    padding-right: clamp(20px, 5vw, 32px);
+  }
+
+  .skip {
+    position: absolute;
+    top: -80px;
+    left: 16px;
+    z-index: 10;
+    padding: 10px 14px;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    background: var(--surface);
+    color: var(--text);
+    text-decoration: none;
+    transition: top 0.15s ease;
+  }
+
+  .skip:focus {
+    top: 16px;
+  }
+
+  .site-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    padding-top: 26px;
+    padding-bottom: 10px;
+  }
+
+  .mark {
+    position: relative;
+    width: 26px;
+    height: 26px;
+    border-radius: 8px;
+    background: var(--accent);
+    box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.14), 0 6px 18px var(--accent-soft);
+  }
+
+  .mark::after {
+    content: "";
+    position: absolute;
+    inset: 7px;
+    border-radius: 3px;
+    background: var(--bg);
+  }
+
+  .lang {
+    display: inline-flex;
+    align-items: center;
+    gap: 2px;
+    padding: 3px;
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    background: var(--surface);
+    box-shadow: var(--shadow);
+  }
+
+  .lang button {
+    appearance: none;
+    border: 0;
+    border-radius: 999px;
+    padding: 5px 11px;
+    background: transparent;
+    color: var(--muted);
+    font: inherit;
+    font-size: 0.82rem;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    cursor: pointer;
+    transition: background 0.15s ease, color 0.15s ease;
+  }
+
+  .lang button:hover {
+    color: var(--text);
+  }
+
+  .lang button[aria-pressed="true"] {
+    background: var(--accent-soft);
+    color: var(--accent);
+  }
+
+  .lang button:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
+  }
+
+  .hero {
+    padding: clamp(56px, 9vw, 92px) 0 clamp(36px, 5vw, 56px);
+  }
+
+  h1 {
+    margin: 0 0 18px;
+    font-size: clamp(2.7rem, 7.4vw, 4.4rem);
+    line-height: 1.04;
+    font-weight: 750;
+    letter-spacing: -0.015em;
+  }
+
+  .tagline {
+    max-width: 24em;
+    margin: 0;
+    padding-left: 16px;
+    border-left: 2px solid var(--accent);
+    font-size: clamp(1.12rem, 2.6vw, 1.4rem);
+    line-height: 1.6;
+  }
+
+  .section {
+    display: grid;
+    grid-template-columns: 140px minmax(0, 1fr);
+    gap: 20px 48px;
+    padding: 36px 0;
+    border-top: 1px solid var(--border);
+  }
+
+  .section h2 {
+    margin: 4px 0 0;
+    font-size: 0.8rem;
+    line-height: 1.6;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--accent);
+  }
+
+  .section-body {
+    min-width: 0;
+  }
+
+  .about {
+    max-width: 60ch;
+    margin: 0;
+    font-size: clamp(1rem, 2.1vw, 1.08rem);
+    line-height: 1.85;
+  }
+
+  .projects {
+    display: grid;
+    gap: 14px;
+  }
+
+  .project {
+    padding: 22px 24px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    background: var(--surface);
+    box-shadow: var(--shadow);
+    transition: transform 0.18s ease, box-shadow 0.18s ease;
+  }
+
+  .project:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-hover);
+  }
+
+  .project h3 {
+    margin: 0 0 8px;
+    font-size: 1.04rem;
+    line-height: 1.6;
+    font-weight: 700;
+    letter-spacing: 0.01em;
+  }
+
+  .project p {
+    max-width: 56ch;
+    margin: 0 0 14px;
+    color: var(--muted);
+    font-size: 0.98rem;
+    line-height: 1.75;
+  }
+
+  .project a {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    border-bottom: 1px solid transparent;
+    color: var(--accent);
+    font-size: 0.92rem;
+    font-weight: 600;
+    line-height: 1.6;
+    text-decoration: none;
+  }
+
+  .project a:hover {
+    border-bottom-color: var(--accent);
+  }
+
+  .project a:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 3px;
+    border-radius: 2px;
+  }
+
+  .arrow {
+    transition: transform 0.18s ease;
+  }
+
+  .project a:hover .arrow {
+    transform: translate(2px, -2px);
+  }
+
+  .site-footer {
+    display: flex;
+    justify-content: space-between;
+    gap: 16px;
+    margin-top: 12px;
+    padding-top: 28px;
+    padding-bottom: 48px;
+    border-top: 1px solid var(--border);
+    color: var(--muted);
+    font-size: 0.86rem;
+    line-height: 1.7;
+  }
+
+  @media (max-width: 680px) {
+    .hero {
+      padding-top: 48px;
+    }
+
+    h1 {
+      letter-spacing: 0;
+    }
+
+    .section {
+      grid-template-columns: 1fr;
+      gap: 8px;
+      padding: 28px 0;
+    }
+
+    .section h2 {
+      margin: 0;
+    }
+
+    .project {
+      padding: 20px;
+    }
+  }
+
+  @media (max-width: 400px) {
+    .tagline {
+      padding-left: 14px;
+      font-size: 1.06rem;
+    }
+
+    .lang button {
+      padding: 5px 9px;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+
+    *,
+    *::before,
+    *::after {
+      transition: none !important;
+      animation: none !important;
+    }
+  }
+</style>
+</head>
+<body id="top">
+<a class="skip" href="#main" data-zh="跳到主要内容" data-en="Skip to main content">跳到主要内容</a>
+<header class="wrap site-header">
+  <span class="mark" aria-hidden="true"></span>
+  <div class="lang" role="group" aria-label="语言 / Language">
+    <button type="button" data-lang-btn="zh" aria-pressed="true">中文</button>
+    <button type="button" data-lang-btn="en" aria-pressed="false">EN</button>
+  </div>
+</header>
+<main id="main" class="wrap">
+  <section class="hero" aria-labelledby="hero-name">
+    <h1 id="hero-name" data-zh="史俊杰" data-en="Shi Junjie">史俊杰</h1>
+    <p class="tagline" data-zh="用 AI Agent 工作流构建量化系统" data-en="Building quant systems with AI agent workflows.">用 AI Agent 工作流构建量化系统</p>
+  </section>
+  <section class="section" aria-labelledby="about-title">
+    <h2 id="about-title" data-zh="关于我" data-en="About">关于我</h2>
+    <div class="section-body">
+      <p class="about" data-zh="九年 A 股个人投资者；2026 年起以多智能体工作流自研量化系统：分层数据湖与分钟级回测引擎（l2-engine，策略层为演示版）、AI 协作护栏层（l2-guardrails）" data-en="Nine years as an individual A-share investor; since 2026, building quant systems with multi-agent workflows: a layered data lake and a minute-level backtesting engine (l2-engine; strategy layer is a demo), and an AI collaboration guardrails layer (l2-guardrails).">九年 A 股个人投资者；2026 年起以多智能体工作流自研量化系统：分层数据湖与分钟级回测引擎（l2-engine，策略层为演示版）、AI 协作护栏层（l2-guardrails）</p>
+    </div>
+  </section>
+  <section class="section" aria-labelledby="projects-title">
+    <h2 id="projects-title" data-zh="项目" data-en="Projects">项目</h2>
+    <div class="section-body projects">
+      <article class="project">
+        <h3>l2-engine</h3>
+        <p data-zh="分层数据湖 + 分钟级回测 + GA 参数寻优（策略层为演示版）" data-en="Layered data lake + minute-level backtesting + GA parameter optimization (strategy layer is a demo)">分层数据湖 + 分钟级回测 + GA 参数寻优（策略层为演示版）</p>
+        <a href="https://github.com/shijunjie-quant/l2-engine" target="_blank" rel="noopener noreferrer"><span data-zh="查看仓库" data-en="View repository">查看仓库</span><span class="arrow" aria-hidden="true">↗</span></a>
+      </article>
+      <article class="project">
+        <h3>l2-guardrails</h3>
+        <p data-zh="AI 协作护栏层：MCP 七工具 + 容器沙箱" data-en="AI collaboration guardrails layer: seven MCP tools + container sandbox">AI 协作护栏层：MCP 七工具 + 容器沙箱</p>
+        <a href="https://github.com/shijunjie-quant/l2-guardrails" target="_blank" rel="noopener noreferrer"><span data-zh="查看仓库" data-en="View repository">查看仓库</span><span class="arrow" aria-hidden="true">↗</span></a>
+      </article>
+    </div>
+  </section>
+</main>
+<footer class="wrap site-footer">
+  <span data-zh="© 2026 史俊杰" data-en="© 2026 Shi Junjie">© 2026 史俊杰</span>
+</footer>
+<script>
+(function () {
+  var root = document.documentElement;
+  var buttons = Array.prototype.slice.call(document.querySelectorAll("[data-lang-btn]"));
+  var KEY = "sj-lang";
+  var META = {
+    zh: {
+      title: "史俊杰 — 用 AI Agent 工作流构建量化系统",
+      desc: "史俊杰的个人主页：用 AI Agent 工作流构建量化系统。"
+    },
+    en: {
+      title: "Shi Junjie — Building quant systems with AI agent workflows",
+      desc: "Shi Junjie's personal homepage: building quant systems with AI agent workflows."
+    }
+  };
+
+  function apply(lang) {
+    var en = lang === "en";
+    root.lang = en ? "en" : "zh-CN";
+
+    var nodes = document.querySelectorAll("[data-zh]");
+    for (var i = 0; i < nodes.length; i++) {
+      var el = nodes[i];
+      var value = el.getAttribute(en ? "data-en" : "data-zh");
+      if (value !== null) {
+        el.textContent = value;
+      }
+    }
+
+    document.title = en ? META.en.title : META.zh.title;
+    var description = document.querySelector('meta[name="description"]');
+    if (description) {
+      description.setAttribute("content", en ? META.en.desc : META.zh.desc);
+    }
+
+    for (var j = 0; j < buttons.length; j++) {
+      buttons[j].setAttribute("aria-pressed", String(buttons[j].getAttribute("data-lang-btn") === lang));
+    }
+
+    try {
+      localStorage.setItem(KEY, lang);
+    } catch (e) {
+      /* Storage can be unavailable in private contexts; the toggle still works. */
+    }
+  }
+
+  var saved = null;
+  try {
+    saved = localStorage.getItem(KEY);
+  } catch (e) {
+    /* Ignore unavailable storage. */
+  }
+
+  var initial = saved === "en" || saved === "zh" ? saved : "zh";
+  apply(initial);
+
+  for (var k = 0; k < buttons.length; k++) {
+    (function (button) {
+      button.addEventListener("click", function () {
+        apply(button.getAttribute("data-lang-btn"));
+      });
+    })(buttons[k]);
+  }
+})();
+</script>
+</body>
+</html>
